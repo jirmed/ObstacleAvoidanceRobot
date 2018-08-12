@@ -1,8 +1,6 @@
-/*
- * Drive.h
- *
- *  Created on: 30. 4. 2017
- *      Author: jirka
+/**
+ * @brief Robot drive
+ * @author Jiri Medved
  */
 
 #ifndef DRIVE_H_
@@ -11,11 +9,23 @@
 #include <Arduino.h>
 #include <L298N.h>
 
+/**
+ * @brief Drive class (L298N motor wrapper)
+ */
 class Drive {
 public:
 	Drive();
+	/**
+	 * Drive forward
+	 */
 	void forward();
+	/**
+	 * Drive backward
+	 */
 	void backward();
+	/**
+	 * Stop
+	 */
 	void stop();
 private:
 	L298N motor;

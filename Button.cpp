@@ -1,9 +1,4 @@
-/*
- * Button.cpp
- *
- *  Created on: 30. 4. 2017
- *      Author: jirka
- */
+
 
 #include "Button.h"
 

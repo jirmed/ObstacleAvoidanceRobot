@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @brief Main program
+ * @author Jiri Medved
+ */
+
 #include "Arduino.h"
 #include "Scanner.h"
 #include "Motor.h"
@@ -51,6 +57,32 @@ void setup() {
 	remote.enableIRIn();
 }
 
+void loop() {
+
+	button.handle();
+	handleIR();
+	handleHeader();
+	if (button.isState()) {
+		go();
+	} else {
+		motor.stop();
+	}
+
+//	testTurn();
+	delay(1);
+}
+
+void go() {
+	uint16_t distance = scanner.getCenter();
+	Serial.println(distance);
+	if (distance > MIN_DISTANCE) {
+		motor.forwardCorrected();
+	} else {
+		motor.stop();
+		handleObstacle();
+	}
+}
+
 void handleIR() {
 	switch (remote.getCommand()) {
 	case remote.IR_ON:
@@ -70,27 +102,12 @@ void handleIR() {
 	}
 }
 
+
 void handleHeader() {
 	if (digitalRead(HEADER_LEFT_PIN) || digitalRead(HEADER_RIGHT_PIN)) {
 		motor.moveBack();
 		motor.turnBack();
 	}
-}
-
-// The loop function is called in an endless loop
-void loop() {
-
-	button.handle();
-	handleIR();
-	handleHeader();
-	if (button.isState()) {
-		go();
-	} else {
-		motor.stop();
-	}
-
-//	testTurn();
-	delay(1);
 }
 
 void testScanner() {
@@ -120,17 +137,6 @@ void testMotor() {
 void testTurn() {
 	motor.turnBack();
 	delay(2000);
-}
-
-void go() {
-	uint16_t distance = scanner.getCenter();
-	Serial.println(distance);
-	if (distance > MIN_DISTANCE) {
-		motor.forwardCorrected();
-	} else {
-		motor.stop();
-		handleObstacle();
-	}
 }
 
 void handleObstacle() {

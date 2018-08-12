@@ -8,8 +8,6 @@
 #include "Drive.h"
 
 Drive::Drive(): motor(ENA, IN1, IN2, IN3, IN4, ENB, false, MINSPEED) {
-	// TODO Auto-generated constructor stub
-
 }
 
 void Drive::forward() {
